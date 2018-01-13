@@ -142,7 +142,7 @@ public class BlindMaze : MonoBehaviour
             NumNorth = 3;
             NorthMesh.material.color = Color.yellow;
             NOYELLOW = false;
-            ColNorthName = "tellow";
+            ColNorthName = "yellow";
         }
 
         if (ColEast == 1)
