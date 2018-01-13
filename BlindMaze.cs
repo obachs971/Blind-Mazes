@@ -1,4 +1,4 @@
-using KMBombInfoExtensions;
+
 using System;
 using UnityEngine;
 using System.Linq;
@@ -15,6 +15,7 @@ public class BlindMaze : MonoBehaviour
     public KMSelectable East;
     public KMSelectable South;
     public KMSelectable West;
+    public KMSelectable Reset;
     public MeshRenderer NorthMesh;
     public MeshRenderer EastMesh;
     public MeshRenderer SouthMesh;
@@ -102,7 +103,7 @@ public class BlindMaze : MonoBehaviour
         East.OnInteract += HandlePressE;
         South.OnInteract += HandlePressS;
         West.OnInteract += HandlePressW;
-        
+        Reset.OnInteract += HandlePressReset;
         //check what the serial ends with and make an integer for it
         LastDigit = BombInfo.GetSerialNumberNumbers().Last();
 
@@ -730,6 +731,7 @@ public class BlindMaze : MonoBehaviour
         {
             DebugLog("East({0}) + West({1}) - 5 = {2}", NumEast, NumWest, CurY + 1);
         }
+
         DebugLog("[X,Y] = [{0},{1}]", CurX + 1, CurY + 1);
     }
 
@@ -853,6 +855,22 @@ public class BlindMaze : MonoBehaviour
 
             }
         }
+        return false;
+    }
+
+    protected bool HandlePressReset()
+    {
+        KMAudio.HandlePlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
+        Reset.AddInteractionPunch(0.5f);
+
+        if (SOLVED)
+        { }
+        else
+        {
+            CurX = StartX;
+            CurY = StartY;
+        }
+
         return false;
     }
 
