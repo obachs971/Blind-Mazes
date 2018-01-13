@@ -1,4 +1,4 @@
-
+using KMBombInfoExtensions;
 using System;
 using UnityEngine;
 using System.Linq;
