@@ -473,7 +473,7 @@ public class BlindMaze : MonoBehaviour
 
 private void Update()
     {
-        MazeNumber = (LastDigit + GetSolvedCount()) % 10;
+        MazeNumber = LastDigit + GetSolvedCount() % 10;
         if (currentMaze != GetSolvedCount() && !SOLVED) {
             currentMaze = GetSolvedCount();
             DebugLog("The Maze Number is now {0}", MazeNumber % 10);
