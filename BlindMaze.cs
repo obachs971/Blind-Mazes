@@ -22,6 +22,7 @@ public class BlindMaze : MonoBehaviour
     public MeshRenderer WestMesh;
     protected int MazeBased = 0;
     protected int MazeRot;
+    private int currentMaze = -1;
 
     protected bool SOLVED = true;
     protected int MazeCode;
@@ -246,19 +247,19 @@ public class BlindMaze : MonoBehaviour
         }
 
         //Look for mazebased modules
-        if (BombInfo.GetModuleNames().Contains("MouseInTheMaze"))
+        if (BombInfo.GetModuleNames().Contains("Mouse In The Maze"))
         { MazeBased++; }
-        if (BombInfo.GetModuleNames().Contains("spwiz3DMaze"))
+        if (BombInfo.GetModuleNames().Contains("3D Maze"))
         { MazeBased++; }
-        if (BombInfo.GetModuleNames().Contains("HexamazeModule"))
+        if (BombInfo.GetModuleNames().Contains("Hexamaze"))
         { MazeBased++; }
         if (BombInfo.GetModuleNames().Contains("Maze"))
         { MazeBased++; }
-        if (BombInfo.GetModuleNames().Contains("MorseAMaze"))
+        if (BombInfo.GetModuleNames().Contains("Morse-A-Maze"))
         { MazeBased++; }
-        if (BombInfo.GetModuleNames().Contains("BlindMaze"))
+        if (BombInfo.GetModuleNames().Contains("Blind Maze"))
         { MazeBased++; }
-        if (BombInfo.GetModuleNames().Contains("PolyhedralMazeModule"))
+        if (BombInfo.GetModuleNames().Contains("Polyhedral Maze"))
         { MazeBased++; }
 
 
@@ -305,7 +306,7 @@ public class BlindMaze : MonoBehaviour
         CurY = (NumEast + NumWest + 4) % 5;
         StartX = CurX;
         StartY = CurY;
-        DebugLog("Maze Rotation is {0} degrees clockwise because of rule {2}, Maze Number is {1},", MazeRot*9-90, MazeNumber, MazeRule);
+        DebugLog("Maze Rotation is {0} degrees clockwise because of rule {1}", MazeRot*9-90, MazeRule);
         DebugLog("North Key is {0}, making it's value {1}", ColNorthName, NumNorth);
         DebugLog("East Key is {0}, making it's value {1}", ColEastName, NumEast);
         DebugLog("South Key is {0}, making it's value {1}", ColSouthName, NumSouth);
@@ -466,9 +467,13 @@ public class BlindMaze : MonoBehaviour
         return false;
     }
 
-    private void Update()
+private void Update()
     {
         MazeNumber = LastDigit + GetSolvedCount() % 10;
+        if (currentMaze != GetSolvedCount()) {
+            currentMaze = GetSolvedCount();
+            DebugLog("The Maze Number is now {0}", MazeNumber);
+        }
         MazeCode = MazeNumber + MazeRot;
         if (MazeCode == 11)
         {
