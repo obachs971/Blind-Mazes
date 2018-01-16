@@ -344,6 +344,7 @@ public class BlindMaze : MonoBehaviour
                 {
                     BombModule.HandlePass();
                     SOLVED = false;
+                    DebugLog("The module has been defused.")
                 }
             }
             else
@@ -374,6 +375,7 @@ public class BlindMaze : MonoBehaviour
             {
                 BombModule.HandlePass();
                 SOLVED = false;
+                DebugLog("The module has been defused.")
             }
             else
             {
@@ -403,6 +405,7 @@ public class BlindMaze : MonoBehaviour
             {
                     BombModule.HandlePass();
                     SOLVED = false;
+                    DebugLog("The module has been defused.")
             }
             else
             {
@@ -432,6 +435,7 @@ public class BlindMaze : MonoBehaviour
             {
                     BombModule.HandlePass();
                     SOLVED = false;
+                    DebugLog("The module has been defused.")
             }
             else
             {
@@ -456,7 +460,7 @@ public class BlindMaze : MonoBehaviour
         KMAudio.HandlePlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         Reset.AddInteractionPunch(0.5f);
 
-        if (SOLVED)
+        if (!SOLVED)
         { }
         else
         {
@@ -469,10 +473,10 @@ public class BlindMaze : MonoBehaviour
 
 private void Update()
     {
-        MazeNumber = LastDigit + GetSolvedCount() % 10;
-        if (currentMaze != GetSolvedCount()) {
+        MazeNumber = (LastDigit + GetSolvedCount()) % 10;
+        if (currentMaze != GetSolvedCount() && !SOLVED) {
             currentMaze = GetSolvedCount();
-            DebugLog("The Maze Number is now {0}", MazeNumber);
+            DebugLog("The Maze Number is now {0}", MazeNumber % 10);
         }
         MazeCode = MazeNumber + MazeRot;
         if (MazeCode == 11)
