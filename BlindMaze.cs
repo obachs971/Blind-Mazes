@@ -42,7 +42,7 @@ public class BlindMaze : MonoBehaviour
     protected int StartX;
     protected int StartY;
 
-    public string TwitchHelpMessage = "Use !{0} NWSE, !{0} nwse, !{0} ULDE, or !{0} ulde to move North West South East.";
+    public string TwitchHelpMessage = "Use !{0} NWSE, !{0} nwse, !{0} ULDR, or !{0} uldr to move North West South East.";
 
     protected KMSelectable[] ProcessTwitchCommand(string TPInput)
     {
@@ -265,7 +265,7 @@ public class BlindMaze : MonoBehaviour
 
         //determine rotation
         int MazeRule;
-        if (BombInfo.GetBatteryCount() == 1 && BombInfo.GetBatteryHolderCount() == 1)
+        if (BombInfo.GetBatteryCount() == 1 && BombInfo.GetBatteryHolderCount() == 0)
         {
             MazeRot = 20;
             MazeRule = 1;
@@ -306,7 +306,7 @@ public class BlindMaze : MonoBehaviour
         CurY = (NumEast + NumWest + 4) % 5;
         StartX = CurX;
         StartY = CurY;
-        DebugLog("Maze Rotation is {0} degrees clockwise because of rule {1}", MazeRot*9-90, MazeRule);
+        DebugLog("Maze Rotation is {0} degrees clockwise because of rule {1}", MazeRot * 9 - 90, MazeRule);
         DebugLog("North Key is {0}, making it's value {1}", ColNorthName, NumNorth);
         DebugLog("East Key is {0}, making it's value {1}", ColEastName, NumEast);
         DebugLog("South Key is {0}, making it's value {1}", ColSouthName, NumSouth);
@@ -336,7 +336,7 @@ public class BlindMaze : MonoBehaviour
     {
         KMAudio.HandlePlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         North.AddInteractionPunch(0.5f);
-        
+
         if (SOLVED)
         {
             if (CurrentP.Contains("N"))
@@ -344,7 +344,7 @@ public class BlindMaze : MonoBehaviour
                 {
                     BombModule.HandlePass();
                     SOLVED = false;
-                    DebugLog("The module has been defused.")
+                    DebugLog("The module has been defused.");
                 }
             }
             else
@@ -368,14 +368,14 @@ public class BlindMaze : MonoBehaviour
     {
         KMAudio.HandlePlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         East.AddInteractionPunch(0.5f);
-        
+
         if (SOLVED)
         {
             if (CurrentP.Contains("E"))
             {
                 BombModule.HandlePass();
                 SOLVED = false;
-                DebugLog("The module has been defused.")
+                DebugLog("The module has been defused.");
             }
             else
             {
@@ -398,14 +398,14 @@ public class BlindMaze : MonoBehaviour
     {
         KMAudio.HandlePlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         South.AddInteractionPunch(0.5f);
-        
+
         if (SOLVED)
         {
             if (CurrentP.Contains("S"))
             {
-                    BombModule.HandlePass();
-                    SOLVED = false;
-                    DebugLog("The module has been defused.")
+                BombModule.HandlePass();
+                SOLVED = false;
+                DebugLog("The module has been defused.");
             }
             else
             {
@@ -428,14 +428,14 @@ public class BlindMaze : MonoBehaviour
     {
         KMAudio.HandlePlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         West.AddInteractionPunch(0.5f);
-        
+
         if (SOLVED)
         {
             if (CurrentP.Contains("W"))
             {
-                    BombModule.HandlePass();
-                    SOLVED = false;
-                    DebugLog("The module has been defused.")
+                BombModule.HandlePass();
+                SOLVED = false;
+                DebugLog("The module has been defused.");
             }
             else
             {
@@ -471,12 +471,13 @@ public class BlindMaze : MonoBehaviour
         return false;
     }
 
-private void Update()
+    private void Update()
     {
-        MazeNumber = LastDigit + GetSolvedCount() % 10;
-        if (currentMaze != GetSolvedCount() && !SOLVED) {
+        MazeNumber = (LastDigit + GetSolvedCount()) % 10;
+        if (currentMaze != GetSolvedCount() && !SOLVED)
+        {
             currentMaze = GetSolvedCount();
-            DebugLog("The Maze Number is now {0}", MazeNumber % 10);
+            DebugLog("The Maze Number is now {0}", MazeNumber);
         }
         MazeCode = MazeNumber + MazeRot;
         if (MazeCode == 11)
@@ -485,7 +486,7 @@ private void Update()
                  { "U D L", "U R", "N R L", "U L", "U R" },
                  { "U L", "D", "R D", "R L", "R D L" },
                  { "L", "U", "U D", "D", "U R" },
-                 { "R L", "R D L", "U ", "U D L", "R" },
+                 { "R L", "R D L", "U R L", "U D L", "R" },
                  { "D L", "U D", "R D", "U D L", "R D" }
             };
         }
@@ -493,9 +494,9 @@ private void Update()
         {
             MazeWalls = new string[5, 5] {
                  { "U L", "U D", "U", "U R", "U R L" },
-                 { "R L", "U L D", "R", "L", "D L" },
+                 { "R L", "U L D", "R", "L", "D R" },
                  { "D L", "U D R", "L R", "L D", "U D E" },
-                 { "U R L", " L", "L", "U D", "U R" },
+                 { "U R L", "U R L", "L", "U D", "U R" },
                  { "D L", "D", "R D", "U D L", "R D" }
             };
         }
@@ -512,7 +513,7 @@ private void Update()
         if (MazeCode == 41)
         {
             MazeWalls = new string[5, 5] {
-                 { "U L", "U R D", "U L", "U", "U R D" },
+                 { "U L", "U R D", "U L", "U", "U R" },
                  { "L D", "U D", "R", "D R L", "D R L" },
                  { "W U D", "U R", "R L", "U L D", "U R" },
                  { "L U", "R", "L", "U R D", "L R" },
@@ -524,9 +525,9 @@ private void Update()
             MazeWalls = new string[5, 5] {
                  { "U L", "U", "N D R", "L U", "U R" },
                  { "L R", "D L ", "U", "D R", "L R" },
-                 { "L", "U R", "L D", "U R", "L D R" },
-                 { "L", "R", "L U R", "D L", "U R" },
-                 { "D L", "D", "D R", "D U L", "R D" }
+                 { "L D", "U R", "L D", "U R", "L D R" },
+                 { "L U", "R", "L U R", "D L", "U R" },
+                 { "D L R", "L D", "D R", "D U L", "R D" }
             };
         }
         if (MazeCode == 20)
@@ -543,7 +544,7 @@ private void Update()
         {
             MazeWalls = new string[5, 5] {
                  { "U L",   "U D R", "U L",   "U R",   "L U R" },
-                 { "L D ",  "U D R", "R D L", "L",      "R D" },
+                 { "L D ",  "U R", "R D L", "L",      "R D" },
                  { "L R U", "L D",   "U R",   "L D",   "R U" },
                  { "L R",   "L U",   "D",     "U R",   "L R" },
                  { "D L",   "D R",   "S U L", "D",     "R D" }
@@ -552,10 +553,10 @@ private void Update()
         if (MazeCode == 40)
         {
             MazeWalls = new string[5, 5] {
-                 { "U L",   "U D L", "U R D", "U L",    "U R" },
+                 { "U L",   "U D", "U R D", "U L",    "U R" },
                  { "L D",   "U R",   "U L",   "D R",    "R L D" },
-                 { "W U R", "L",     "D R",   "U D L",  "R" },
-                 { "L",     "D R",   "U L",   "U",      "R" },
+                 { "W U R", "L",     "D R",   "U D L",  "U R" },
+                 { "L",     "D R",   "U L",   "U",      "R D" },
                  { "D L",   "D U",   "D R",   "L D",    "U R D" }
             };
         }
@@ -566,7 +567,7 @@ private void Update()
                  { "L D", "U D", "D", "U D", "R" },
                  { "L U D", "U", "U", "U", "D R" },
                  { "L U R", "R L", "R L", "L D", "U R" },
-                 { "D L", "D R", "L D", "D R", "L R D" }
+                 { "D L", "D R", "L D", "U D R", "L R D" }
             };
         }
         if (MazeCode == 22)
@@ -576,7 +577,7 @@ private void Update()
                  { "L D",   "U D",   "R",     "L R", "L D R" },
                  { "L U",   "U D",   "R",     "L",   "U E" },
                  { "L D R", "U L",   "R",     "L R", "L D R" },
-                 { "D L ",  "D R",   "L D",   "D",   "U R D" }
+                 { "D L U",  "D R",   "L D",   "D",   "U R D" }
             };
         }
         if (MazeCode == 32)
@@ -593,7 +594,7 @@ private void Update()
         {
             MazeWalls = new string[5, 5] {
                  { "U L D", "U",   "U R",   "U L",   "U R D" },
-                 { "L U R", "R L", "L",     "U R",   "L U R" },
+                 { "L U R", "R L", "L",     "D R",   "L U R" },
                  { "W D",   "R",   "L",     "U D",   "R D" },
                  { "U R L", "R L", "L",     "U D",   "R U" },
                  { "D L",   "D R", "L D R", "L U D", "R D" }
@@ -652,7 +653,7 @@ private void Update()
         if (MazeCode == 24)
         {
             MazeWalls = new string[5, 5] {
-                 { "U L",   "U",     "U R", "U L D", "U R" },
+                 { "U L",   "U D",     "U R", "U L D", "U R" },
                  { "L R D", "U R L", "L",   "U D",   "R" },
                  { "L U",   "D R",   "L D", "U D R", "L E" },
                  { "L R",   "L U",   "U R", "U L",   "R D" },
@@ -666,7 +667,7 @@ private void Update()
                  { "L D",   "U R", "L D",   "U R D", "L R"   },
                  { "L U",   "D R", "L U",   "U",     "R D"   },
                  { "L",     "U R", "L D R", "L R",   "U R L" },
-                 { "D L R", "D",   "S U",   "D",     "R D"   }
+                 { "D L R", "D L",   "S U",   "D",     "R D"   }
             };
         }
         if (MazeCode == 44)
@@ -694,7 +695,7 @@ private void Update()
             MazeWalls = new string[5, 5] {
                  { "U R L", "L U D", "U D", "U D",   "U R"   },
                  { "L D",   "U D",   "U",   "U",     "R D"   },
-                 { "L U",   "U R",   "U R", "R L D", "U L E" },
+                 { "L U",   "U R",   "L R", "R L D", "U L E" },
                  { "L D R", "L D",   "",    "U R",   "L R"   },
                  { "D L U", "D U",   "D R", "L D",   "R D"   }
             };
@@ -704,7 +705,7 @@ private void Update()
             MazeWalls = new string[5, 5] {
                  { "U R L", "U D L", "U R",   "L U", "D U R" },
                  { "L R",   "L U",   "D R",   "L R", "L U R" },
-                 { "L D",   "",      "U D",   "L R", "L R"   },
+                 { "L D",   "",      "U D",   "R", "L R"   },
                  { "L U",   "D R",   "D U L", "R",   "L R"   },
                  { "D L",   "D U",   "S U R", "L D", "R D"   }
             };
@@ -722,11 +723,11 @@ private void Update()
         if (MazeCode == 16)
         {
             MazeWalls = new string[5, 5] {
-                 { "U L",   "U",     "N", "U", "U R" },
-                 { "L R",   "L D R", "L", "", "R" },
-                 { "L R",   "U D L", "", "", "R" },
-                 { "L D",   "U R",   "L", "", "R" },
-                 { "D L U", "D",     "D", "D", "R D" }
+                 { "U L", "U", "N D", "U D", "U R"},
+                 { "L R", "L D R", "L U", "U R", "L R"},
+                 { "L R", "U D L", "D R", "L", "R"},
+                 { "L D", "U R", "U D L", "R D", "L R"},
+                 { "D L U", "D", "D R U", "D L U", "R D"}
             };
         }
         if (MazeCode == 26)
@@ -736,7 +737,7 @@ private void Update()
                  { "L",     "D R",   "L U R", "U D L", "R" },
                  { "L D R", "R L U", "L D", "R U", "L E" },
                  { "L U R", "L D",   "U", "D R", "L R" },
-                 { "D L",   "D U",   "D", "D", "R D" }
+                 { "D L",   "D U",   "D", "D U", "R D" }
             };
         }
         if (MazeCode == 36)
@@ -755,7 +756,7 @@ private void Update()
                  { "L U", "U D",   "U",     "U D",   "R U" },
                  { "L R", "U L",   "D",     "U R",   "R D L" },
                  { "W R", "D L",   "U R",   "D L R", "R U L" },
-                 { "L",   "D L R", "D L R", "U L",   "R" },
+                 { "L",   "D U R", "D L R", "U L",   "R" },
                  { "L D", "D U",   "D U",   "D R",   "R D L " }
             };
         }
@@ -764,8 +765,8 @@ private void Update()
             MazeWalls = new string[5, 5] {
                  { "U L D", "U R",   "R N L", "U L R", "L U R" },
                  { "L U",   "R",     "R L",   "L",     "D R" },
-                 { "L R",   "L D",   "L",     "L D",   "U R" },
-                 { "L R",   "L R U", "R D",   "U R",   "L R" },
+                 { "L R",   "L D",   "R",     "L D",   "U R" },
+                 { "L R",   "L R U", "L D",   "U R",   "L R" },
                  { "D L R", "L D",   "U D",   "D",     "R D" }
             };
         }
@@ -794,16 +795,16 @@ private void Update()
             MazeWalls = new string[5, 5] {
                  { "U L D", "U R", "U L", "D U", "U R" },
                  { "U L D", "D",   "D R", "U L", "R" },
-                 { "U W D", "U D", "U",   "D R", "R" },
-                 { "U L",   "U",   "D R", "D U L", "R" },
-                 { "D L R", "L D", "D U", "D U", "R D" }
+                 { "U W D", "U D", "U",   "D R", "L R" },
+                 { "U L",   "U",   "D R", "D U L", "D R" },
+                 { "D L R", "L D", "D U", "D U", "R U D" }
             };
         }
         if (MazeCode == 18)
         {
             MazeWalls = new string[5, 5] {
                  { "U L",   "U D",   "N R",   "U L",   "U R D" },
-                 { "L R",   "U L",   "D",     "D",     "R" },
+                 { "L R",   "U L",   "D",     "D",     "U R" },
                  { "L R",   "L D",   "U R D", "U L D", "R" },
                  { "L D",   "U R D", "U L",   "U R",   "L R" },
                  { "D L U", "U D",   "D R",   "L D",   "R D" }
@@ -826,7 +827,7 @@ private void Update()
                  { "L R",   "D L",   "D R",   "L U D", "U R" },
                  { "L",     "U R D", "L U D", "U R",   "L R" },
                  { "L D",   "U",     "U",     "D R",   "L R" },
-                 { "L D U", "D R",   "L S R", "D U",   "R D" }
+                 { "L D U", "D R",   "L S", "D U",   "R D" }
             };
         }
         if (MazeCode == 48)
@@ -844,19 +845,19 @@ private void Update()
             MazeWalls = new string[5, 5] {
                  { "U L R", "L U D", "N R", "L U", "U R"   },
                  { "L D",   "U R",   "L R", "L R", "L R D" },
-                 { "L U R", "D L",   "D",   "",    "R"     },
-                 { "L",     "U R",   "U L", "",    "R"     },
-                 { "D L R", "D L",   "D R", "D",   "R D"   }
+                 { "L U R", "D L",   "D",   "",    "D R"     },
+                 { "L",     "U R",   "U L", "",    "U D R"     },
+                 { "D L R", "D L",   "D R", "D",   "U R D"   }
             };
         }
         if (MazeCode == 29)
         {
             MazeWalls = new string[5, 5] {
-                 { "U L D", "U",     "U R",   "L U", "U R" },
+                 { "U L D", "U",     "U R D",   "L U", "U R" },
                  { "L U",   "R D",   "U L",   "D R", "U R L" },
                  { "L D",   "R U",   "L",     "U D", "D E" },
-                 { "L U",   "",      "",      "U D", "R" },
-                 { "D L R", "L R D", "L R D", "D",   "R D" }
+                 { "L U",   "",      "",      "U D", "U R" },
+                 { "D L R", "L R D", "L R D", "D L U",   "R D" }
             };
         }
         if (MazeCode == 39)
@@ -865,7 +866,7 @@ private void Update()
                  { "U L D", "U R", "L U", "U R",   "L U R" },
                  { "L U D", "",    "D R", "D L",   "R" },
                  { "L U D", "",    "U",   "U R",   "L D R" },
-                 { "L U R", "R L", "L R", "L D",   "R" },
+                 { "L U R", "R L", "L R", "L D",   "U R" },
                  { "D L",   "D R", "L S", "D U R", "L R D" }
             };
         }
