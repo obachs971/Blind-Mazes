@@ -620,7 +620,7 @@ public class BlindMaze : MonoBehaviour
                  { "D U L", "D R",   "L D", "U D", "R D" }
             };
         }
-        //TO DO: SUBTLETY ADD IN SOME RANDOM JOKE ABOUT YOUTUBE, JOKETTEWUZHERE, ENDERMEN, GLITCHES, BLAMING MONIKA, AND GAME THEORY.
+        //TO DO: SUBTLETY ADD IN SOME RANDOM JOKE ABOUT YOUTUBE, JOKETTEWUZHERE, GLITCHES, AND REALITY.
         //TO DO: FIGURE OUT WHY JOKETTE PUT THAT HERE.
         if (MazeCode == 33)
         {
