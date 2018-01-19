@@ -615,11 +615,13 @@ public class BlindMaze : MonoBehaviour
             MazeWalls = new string[5, 5] {
                  { "U L R", "L U D", "U",   "U R", "L U R" },
                  { "L R",   "L U D", "D R", "L",   "D R" },
-                 { "L D",   "U D",   "U R", "L R", "U L I E  # ..--- ----- ..... ..--- ...-- --..." },
+                 { "L D",   "U D",   "U R", "L R", "U L E" },
                  { "L U D", "U",     "R",   "L D", "R" },
                  { "D U L", "D R",   "L D", "U D", "R D" }
             };
         }
+        //TO DO: SUBTLETY ADD IN SOME RANDOM JOKE ABOUT YOUTUBE, JOKETTEWUZHERE, ENDERMEN, GLITCHES, BLAMING MONIKA, AND GAME THEORY.
+        //TO DO: FIGURE OUT WHY JOKETTE PUT THAT HERE.
         if (MazeCode == 33)
         {
             MazeWalls = new string[5, 5] {
