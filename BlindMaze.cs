@@ -265,7 +265,7 @@ public class BlindMaze : MonoBehaviour
 
         //determine rotation
         int MazeRule;
-        if (BombInfo.GetBatteryCount() == 1 && BombInfo.GetBatteryHolderCount() == 0)
+        if (BombInfo.GetBatteryCount() == 1 && BombInfo.GetBatteryHolderCount() == 1)
         {
             MazeRot = 20;
             MazeRule = 1;
